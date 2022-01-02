@@ -1,5 +1,5 @@
 import React from "react";
-import { useRef, useEffect} from "react"
+import { useRef, useEffect } from "react"
 import { styled, alpha } from "@mui/material/styles";
 import { drawerWidth } from "./constants";
 import Paper from '@mui/material/Paper';
@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 
 const blueGradient = 'linear-gradient(180deg, #6b9dff, #2b71ff)';
 
-const AddressFormPaper = styled(Paper)(({ theme}) => ({
+const AddressFormPaper = styled(Paper)(({ theme }) => ({
   borderRadius: 8,
   marginBottom: theme.spacing(2),
   width: 413,
@@ -52,10 +52,10 @@ const CloseButton = styled(Button)(({ theme }) => ({
   background: blueGradient
 }));
 
-function AddressForm({ index, address, id, handleDelete,handleDragStart,handleDragEnter,handleDragEnd}) {
+function AddressForm({innerRef, provided, index, address, id, handleDelete}) {
   const formRef = useRef();
 
-  
+
   //update data-index
   useEffect(() => {
     const target = formRef.current;
@@ -63,38 +63,40 @@ function AddressForm({ index, address, id, handleDelete,handleDragStart,handleDr
     target.setAttribute('data-testid', index);
   }, [index]);
 
-   //update data-id
+  //update data-id
   useEffect(() => {
     const target = formRef.current;
     target.setAttribute('data-id', id);
   }, [id]);
 
-//delete an addressForm from an AddressFormContainer
+  //delete an addressForm from an AddressFormContainer
   const handleCloseBtn = (e) => {
     let container = e.target.closest('.MuiPaper-root')
     handleDelete(container.dataset.id);
   }
 
   return (
-    <AddressFormPaper 
-      ref={formRef}
-      draggable
-      onDragStart={handleDragStart(index)}
-      onDragEnter={handleDragEnter(index)}
-      onDragEnd={handleDragEnd}
+    <div
+      ref={innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+    >
+      <AddressFormPaper
+        ref={formRef}
       >
-      <AddressFormHeader>
-        <CloseButton variant="contained" onClick={handleCloseBtn}>
-          <CloseIcon />
-        </CloseButton>
-        <AddressFormDivider />
-      </AddressFormHeader>
-      <AddressFormContent>
-        <Typography variant="subtitle1" color="initial">
-          {address}
-        </Typography>
-      </AddressFormContent>
-    </AddressFormPaper>
+        <AddressFormHeader>
+          <CloseButton variant="contained" onClick={handleCloseBtn}>
+            <CloseIcon />
+          </CloseButton>
+          <AddressFormDivider />
+        </AddressFormHeader>
+        <AddressFormContent>
+          <Typography variant="subtitle1" color="initial">
+            {address}
+          </Typography>
+        </AddressFormContent>
+      </AddressFormPaper>
+    </div>
   );
 }
 
