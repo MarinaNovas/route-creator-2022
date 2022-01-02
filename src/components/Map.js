@@ -263,8 +263,12 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
 
   useEffect(()=>{
     if(!yMapIsAvailable) return;
+
     setYMapObject((YMapObject)=>{
       YMapObject.container.fitToViewport();
+      if(YMapObject.geoObjects.getBounds()){
+        YMapObject.setBounds(YMapObject.geoObjects.getBounds(), { checkZoomRange: true });
+      }
       return YMapObject;
     });
   },[open,setYMapObject,yMapIsAvailable]);
