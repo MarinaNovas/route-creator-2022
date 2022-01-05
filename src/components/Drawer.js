@@ -2,7 +2,7 @@ import React from "react";
 
 import { drawerWidth, backgroundColorPrimary, blueGradient  } from "./constants";
 import { styled} from "@mui/material/styles";
-import Box from '@mui/material/Box'
+import MuiBox from '@mui/material/Box'
 import MuiDrawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -27,6 +27,15 @@ const СustomerDrawer = styled(MuiDrawer)(({theme})=>({
     }
   }
 }));
+
+const Box = styled(MuiBox)(({theme})=>({
+  display:'flex',
+  flexDirection: 'column',
+  height: '100%',
+  padding:'40px 18px',
+  backgroundColor: backgroundColorPrimary,
+  overflowY:'hidden',
+}))
 
 function Drawer({open,handleOpenControlPanel,children}){
   return(

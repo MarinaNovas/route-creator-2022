@@ -1,0 +1,39 @@
+.address-form{
+ width: 100%; 
+} 
+
+.address-form-container{
+  flex-grow: 1;
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content ul{
+  padding-left: 20px;
+}
+
+.content div:nth-child(3) ul{
+  list-style: none;
+}
+.content div:nth-child(3) li{
+  position: relative;
+}
+.content div:nth-child(3) li::before{
+  content:"\2714\0020";
+  color: green;
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.content li{
+  margin-bottom: 7px;
+}
+
+.content h3{
+  margin: 0 0 19px;
+}

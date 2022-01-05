@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { languages, LanguageContext } from './context/Context';
 
 import Map from './components/Map';
@@ -13,7 +13,6 @@ import Box from '@mui/material/Box';
 import CssBaseline from "@mui/material/CssBaseline";
 
 
-
 function App() {
 
   const [openControlPanel, setOpenControlPanel] = useState(true);
@@ -23,10 +22,10 @@ function App() {
   const [addressesListChanged, setAddressesListChanged] = useState(null);
   const [addressDeleted, setAddressDeleted] = useState(null);
   const [language, setLanguage] = useState(languages[0]);
-  const [deleteAll, setDeleteAll]=useState(false);
+  const [deleteAll, setDeleteAll] = useState(false);
 
   function handleOpenInfirmationDialog() {
-    setOpenInfirmationDialog(currentState=>!currentState);
+    setOpenInfirmationDialog(currentState => !currentState);
   }
 
   const handleOpenControlPanel = () => {
@@ -47,7 +46,7 @@ function App() {
     setAddressDeleted(...addressesList.filter(item => item.id === id));
   }
 
-  function handleDeleteAll(){
+  function handleDeleteAll() {
     setDeleteAll(true);
   }
 
@@ -65,38 +64,39 @@ function App() {
     setDeleteAll(false);
   }, [setAddressesList]);
 
+  useEffect(() => {
+    window.onscroll = null;
+  }, []);
+
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', backgroundColor: backgroundColorPrimary }}>
       <CssBaseline />
-      <DialogWindow 
-        open={openInfirmationDialog} 
-        handleOpenInfirmationDialog={handleOpenInfirmationDialog} 
-      />
-
-      <AppBar 
-        handleOpenControlPanel={handleOpenControlPanel} 
-        handleOpenInfirmationDialog={handleOpenInfirmationDialog} 
-        openControlPanel={openControlPanel} 
-        language={language} 
-        handleSetLanguage={handleSetLanguage} 
-      />
-
-      <ControlPanel
-       /*  address={address} */
-        handleSetAddress={handleSetAddress}
-        addressesList={addressesList}
-        /* language={language} */
-       /*  handleSetLanguage={handleSetLanguage} */
-        handleShuffleClick={handleShuffleClick}
-        /* deleteAll={deleteAll} */
-        handleDeleteAll={ handleDeleteAll}
-        handleDelete={handleDelete}
-        open={openControlPanel}
-        handleOpenControlPanel={handleOpenControlPanel}
-        handleJumbledAddress={handleJumbledAddress}
-      />
       <LanguageContext.Provider value={language}>
+        <DialogWindow
+          open={openInfirmationDialog}
+          handleOpenInfirmationDialog={handleOpenInfirmationDialog}
+        />
+
+        <AppBar
+          handleOpenControlPanel={handleOpenControlPanel}
+          handleOpenInfirmationDialog={handleOpenInfirmationDialog}
+          openControlPanel={openControlPanel}
+          language={language}
+          handleSetLanguage={handleSetLanguage}
+        />
+
+        <ControlPanel
+          handleSetAddress={handleSetAddress}
+          addressesList={addressesList}
+          handleShuffleClick={handleShuffleClick}
+          handleDeleteAll={handleDeleteAll}
+          handleDelete={handleDelete}
+          open={openControlPanel}
+          handleOpenControlPanel={handleOpenControlPanel}
+          handleJumbledAddress={handleJumbledAddress}
+        />
+
         <Map address={address} getAddressesList={getAddressesList} addressesListChanged={addressesListChanged} addressDeleted={addressDeleted} deleteAll={deleteAll} open={openControlPanel} />
       </LanguageContext.Provider>
     </Box>

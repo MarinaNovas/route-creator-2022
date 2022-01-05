@@ -1,10 +1,12 @@
 import React from "react";
 
 import Drawer from "./Drawer";
+import { useTheme } from "@mui/material/styles";
 import InputText from "./InputText";
 import Button from "./Button";
 import AddressFormesContainer from "./AddressFormesContainer";
 import AddressForm from "./AddressForm";
+import { drawerWidth } from "./constants";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import Box from '@mui/material/Box';
@@ -12,6 +14,7 @@ import Box from '@mui/material/Box';
 
 function ControlPanel({ handleSetAddress, addressesList, handleShuffleClick, handleDeleteAll, handleDelete, open, handleOpenControlPanel, handleJumbledAddress }) {
 
+  const theme = useTheme();
   function handleOnDragEnd(result) {
     if (!result.destination) return;
 
@@ -58,9 +61,18 @@ function ControlPanel({ handleSetAddress, addressesList, handleShuffleClick, han
         </Droppable>
       </DragDropContext>
 
-      <Box display='flex' justifyContent='space-between' sx={{ padding: '30px 10px 0 10px' }}  >
-        <Button label='Shuffle' handleEvent={handleShuffleClick} />
-        <Button label='Delete All' handleEvent={handleDeleteAll} />
+      <Box 
+        display='flex' 
+        justifyContent='space-between' 
+        sx={{ 
+          padding: '30px 10px 0 10px',
+          [theme.breakpoints.down(drawerWidth)]:{
+            padding:'30px 0px 0px 0px',
+          }
+         }}  
+      >
+        <Button label='shuffle' handleEvent={handleShuffleClick} />
+        <Button label='delete All' handleEvent={handleDeleteAll} />
       </Box>
     </Drawer>
   );

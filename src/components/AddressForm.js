@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from "@mui/material/Typography";
+import '../App.css';
 
 const blueGradient = 'linear-gradient(180deg, #6b9dff, #2b71ff)';
 
@@ -41,9 +42,12 @@ const AddressFormDivider = styled('span')(({ theme }) => ({
   backgroundColor: alpha(theme.palette.common.black, 0.1),
 }));
 
-const AddressFormContent = styled('div')({
-  padding: '7px 15px 15px 15px'
-});
+const AddressFormContent = styled('div')(({theme})=>({
+  padding: '7px 15px 15px 15px',
+  [theme.breakpoints.down(drawerWidth)]:{
+    padding:'7px 15px 5px 15px',
+  }
+}));
 
 const CloseButton = styled(Button)(({ theme }) => ({
   padding: 0,
@@ -76,7 +80,7 @@ function AddressForm({innerRef, provided, index, address, id, handleDelete}) {
   }
 
   return (
-    <div
+    <div className="address-form"
       ref={innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}

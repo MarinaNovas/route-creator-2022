@@ -1,8 +1,14 @@
 import React from "react";
+import { useContext } from "react";
 import { blueGradient } from "./constants";
 import MuiButton from '@mui/material/Button';
 
+import {LanguageContext} from '../context/Context';
+import {content} from '../context/Context';
+
 function Button({ label, handleEvent}) {
+  const language = useContext(LanguageContext);
+
   return (
     <MuiButton
       variant="contained"
@@ -12,7 +18,7 @@ function Button({ label, handleEvent}) {
       }}
       onClick={handleEvent}
     >
-      {label}
+      {label==='shuffle'?content[language].buttonShuffle:content[language].buttonDeleteAll}
     </MuiButton>
   );
 }

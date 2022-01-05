@@ -1,30 +1,23 @@
 import React from "react";
+import '../App.css';
 
 
 function AddressFormesContainer({provided, innerRef,children}) {
 
-  const divStyle ={
-    flexGrow: 1,
-    position: 'relative',
-    overflowY: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  };
-
   if(provided){
     return (
-      <div style={divStyle} 
+      <div className="address-form-container"
         {...provided.droppableProps}
         ref={innerRef}
         >
         {children}
+        {provided.placeholder}
       </div>
     );
   }
 
   return (
-    <div style={divStyle} >
+    <div className="address-form-container" >
         {children}
     </div>
   )
