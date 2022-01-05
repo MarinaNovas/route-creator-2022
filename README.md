@@ -33,7 +33,7 @@
 
 :rocket: Application has a responsive design and you can test it on different devices
 
-![Alt-General view of the application:](https://github.com/MarinaNovas/route-creator-2022/blob/master/route-creator-sm.jpg "Орк")
+![Alt-General view of the application:](https://github.com/MarinaNovas/route-creator-2022/blob/master/img/route-creator-sm.jpg "Орк")
 
 ### Features:
 :heavy_check_mark: Добавить точку маршрута на карте
