@@ -1,70 +1,73 @@
 # Тестовое задание на позицию frontend разработчика
+Это простое адаптивное одностраничное React приложение, в котором пользователь может интерактивно создавать маршрут на карте.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Этот проект представляет собой тестовое задание на позицию front-end разработчика. Приложение называется Route-creator-2022, но оно не создает каких-либо существующих маршрутов, которые можно использовать для путешествий в реальной жизни. В этом приложении мы просто соединяем точки ломаной линией, в заданном Пользователем порядке.
 
-## Available Scripts
+Основная цель этого проекта - показать один из возможных подходов взаимодействия приложения React с Yandex.Maps  API без использования дополнительных библиотек (например, react-yandex-maps).
 
-In the project directory, you can run:
+Ну и конечно же, я надеюсь этим проектом привлечь внимание потенциального работодателя :blush:.
 
-### `npm start`
+### Tech Stack:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- HTML,CSS,SCSS, Material-UI
+- React.js (I used a functional approach and hooks)
+- Yandex Maps API
+- React Testing Library
+- Cypress
+- Для проекта была использована готовая сборка create-react-app
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Deploy:
 
-### `npm test`
+**`Deployed here:`** https://route-creator-2022.herokuapp.com/
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Run Locally:
+1. Clone the project: **`git clone`** https://github.com/MarinaNovas/route-creator-2022.git
+2. Go to the project directory: **`cd router-creator`**
+3. Install dependencies: **`npm install`**
+4. Start the server: **`npm start`**
 
-### `npm run build`
+### Appearance:
+:rocket: General view of the application has a Control Panel, AppBar and Map.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+:rocket: You can hide the Control Panel.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+:rocket: Application has a responsive design and you can test it on different devices
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![Alt-General view of the application:](https://github.com/MarinaNovas/route-creator-2022/blob/master/route-creator-sm.jpg "Орк")
 
-### `npm run eject`
+### Features:
+:heavy_check_mark: Добавить точку маршрута на карте
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+:heavy_check_mark: Удалить точку маршрута
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+:heavy_check_mark: Удалить все точки маршрута
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+:heavy_check_mark: Перемешать/(Тасовать) все адреса
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+:heavy_check_mark: Переместить отдельный адрес в списке
 
-## Learn More
+:heavy_check_mark: Переместить маркер на карте
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+:heavy_check_mark: Получить информацию о маркере/метке на карте
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+:heavy_check_mark: Изменить язык
 
-### Code Splitting
+### How to use:
+#### - Добавить точку маршрута на карту
+В поле ввода пользователь вводит адрес, при нажатии клавиши Enter на десктопе (или ‘+’ на мобильном), введенный адрес отображается в списке адресов, в виде Адресной формы, и на карте появляется маркер, обозначающий новую точку маршрута.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Если количество точек в маршруте> 1-й, то маркеры на карте соединяются между собой прямыми линиями, в порядке, указанном в списке адресов. Полученная таким образом ломаная линия изображает маршрут, где первый адрес в списке – это начало маршрута, а последняя – конец маршрута.
+#### - Удалить точку маршрута
+В списке адресов на каждой адресной форме (справа вверху) есть кнопка удаления (‘X’). При нажатии этой кнопки выбранная адресная форма удаляется из списка адресов, а на карте пропадает соответствующий маркер. Маршрут на карте автоматические перерисовывается.
+#### - Удалить все точки маршрута
+На панели управления есть кнопка «Удалить Все» / «Delete All». При её нажатии все адреса из списка и соответствующие им маркеры и линии на карте удаляются.
+#### -	Перемешать/(Тасовать) все адреса
+На панели управления есть кнопка «Перемешать» / «Shuffle». При её нажатии все адреса в списке перемешиваются в произвольном порядке, а ломаная линия на карте, соединяющая маркеры, перерисовывается в соответствии с новой последовательностью точек.
+#### -	Переместить отдельный адрес
+Порядок адресов в списке можно изменить перетаскиванием адресных форм на новые позиции. При этом маршрут на карте автоматические перерисовывается.
+#### - Переместить маркер на карте
+Маркеры, соответствующие точкам маршрута, можно перемещать по карте перетаскиванием. Информация в соответствующей адресной форме автоматически обновляется.
+#### - Получить информацию о маркере/метке на карте
+При клике на маркер появляется «балун», в котором отображается адрес соответствующей ему точку.
+#### - Изменить язык
+Приложение поддерживает Русский и Английский языки. Переключатель языка расположен на верхней панели справа.

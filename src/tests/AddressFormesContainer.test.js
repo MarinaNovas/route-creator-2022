@@ -20,7 +20,7 @@ const props_2 ={
   }
 };
 
-/* describe('AddressFormesContainer',()=>{
+describe('AddressFormesContainer',()=>{
   it('should be render AddressFormesContainer',()=>{
     render(<AddressFormesContainer {...props_1}/>);
     expect(screen.queryByText(/Элемент/i)).not.toBeInTheDocument();
@@ -57,9 +57,7 @@ const props_2 ={
         </div>
       </AddressFormesContainer>
       );
-    
-    screen.debug();
 
   });
 
-}); */
+}); 

@@ -5,22 +5,23 @@ import userEvent from '@testing-library/user-event';
 import AddressForm from '../components/AddressForm'
 
 const props={
-  innerRef:undefined,
- /*  provided:{
+  innerRef:{},
+  provided:{
     draggableProps:{},
     dragHandleProps:{}
-  }, */
+  },  
   index:0,
   address:'г.Москва, Химки', 
   id:1, 
+  handleDelete: jest.fn()
 }
-/* describe('AddressForm',()=>{
-  it('render AddressForm',()=>{
+ describe('AddressForm',()=>{
+  it('shpuld render AddressForm',()=>{
     render(<AddressForm {...props}/>);
     expect(screen.getByText(/г\.Москва, Химки/i)).toBeInTheDocument();
   });
 
-  it('click close button',()=>{
+  it('should delete address-form',()=>{
 
     render(<AddressForm {...props}/>);
     const closeBtn = screen.getByRole('button')
@@ -28,4 +29,4 @@ const props={
     expect(props.handleDelete).toHaveBeenCalledTimes(1);
   });
 
-}); */
+}); 
