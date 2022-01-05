@@ -47,7 +47,7 @@ jest.mock('../useYandexMap',()=>{
 
 const defaultMapProps_1={
   address:'Химки',
-  getAddressesList:()=>{},
+  getAddressesList:jest.fn(),
   addressesListChanged:null,
   addressDeleted:null,
   deleteAll:false,
@@ -56,7 +56,7 @@ const defaultMapProps_1={
 
 const defaultMapProps_2={
   address:null,
-  getAddressesList:()=>{},
+  getAddressesList:jest.fn(),
   addressesListChanged:null,
   addressDeleted:null,
   deleteAll:false,
@@ -101,6 +101,7 @@ describe('Map',()=>{
     });
   });
 
+
   it("Should run createPlacemark", async ()=>{
     useYandexMap.mockImplementation(()=>yMapsO);
     getGeocoderData.mockImplementation(()=>mockGetGeocoderData);
@@ -108,7 +109,9 @@ describe('Map',()=>{
 
     render(<Map {...defaultMapProps_1}/>);
     await waitFor(()=>{
+    expect(getGeocoderData).toBeCalledTimes(1);
     expect(createPlacemark).toHaveBeenCalledTimes(2);
+    expect(defaultMapProps_1.getAddressesList).toBeCalledTimes(2);
    });
   });
 

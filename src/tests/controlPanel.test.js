@@ -33,58 +33,9 @@ const props_2 = {
   handleJumbledAddress: jest.fn()
 }
 
-/* jest.mock('react-beautiful-dnd', () => ({
-  Droppable: ({ children }) => children({
-    draggableProps: {
-      style: {},
-    },
-    innerRef: jest.fn(),
-  }, {}),
-  Draggable: ({ children }) => children({
-    draggableProps: {
-      style: {},
-    },
-    innerRef: jest.fn(),
-  }, {}),
-  DragDropContext: ({ children }) => children,
-})); */
-
-/*  Droppable: jest.fn(({children})=>(
-   <div data-testid='droppable'>
-     {children({
-       draggableProps:{
-         style: {},
-       },
-       innerRef: jest.fn(),
-     })}
-   </div>
- )),
- Draggable: jest.fn(({children})=>(
-   <div data-testid='draggable'>
-     {children({
-       draggableProps:{
-         style: {},
-       },
-       innerRef: jest.fn(),
-     })}
-   </div>
- )),
-  */
-
-/* jest.mock('react-beautiful-dnd', () => ({
-  DragDropContext: (({ children }) => (
-    <div data-testid='dragg-drop-context'>{children}</div>
-  )),
-  Droppable: ({ children }) => children({
-    draggableProps: {
-      style: {},
-    },
-    innerRef: jest.fn(),
-  }, {}),
-}));
- */
 
 const mockAddressFormesContainer=jest.fn();
+
 jest.mock('../components/AddressFormesContainer',()=>({provided, innerRef,children})=>{
   mockAddressFormesContainer({provided, innerRef});
   return (
@@ -98,22 +49,21 @@ jest.mock('../components/AddressFormesContainer',()=>({provided, innerRef,childr
 
 const mockAddressForm = jest.fn();
 
-jest.mock('../components/addressForm',()=>({provided, innerRef,children})=>{
+jest.mock('../components/addressForm',()=>({innerRef, provided, index, address, id, handleDelete})=>{
   mockAddressForm({provided, innerRef});
   return (
     <mock-addressForm>
-      {children}
+      <div>{address}</div>
     </mock-addressForm>
   )
 });
 
 
-/* describe('ControlPanel', () => {
+ describe('ControlPanel', () => {
   it('should render ControlPanel', () => {
     render(<ControlPanel {...props_2}/>);
     expect(mockAddressFormesContainer).toHaveBeenCalledTimes(1);
     expect(mockAddressForm).toHaveBeenCalledTimes(3);
-
   });
 
-}); */
+}); 

@@ -12,12 +12,12 @@ const props={
 describe('Button',()=>{
   it('Should render button',()=>{
     render(<Button {...props}/>);
-    expect(screen.getByText('Delete All')).toBeInTheDocument();
+    expect(screen.getByText(/(Delete All)|(Удалить все)/i)).toBeInTheDocument();
   });
 
   it('Should call handleEven',()=>{
     render(<Button {...props}/>);
-    const button = screen.getByText('Delete All');
+    const button = screen.getByText(/(Delete All)|(Удалить все)/i);
     userEvent.click(button);
     expect(props.handleEvent).toBeCalledTimes(1);
   });
