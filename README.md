@@ -2,13 +2,12 @@
 
 ### Ответы на теорию по ссылке: https://github.com/MarinaNovas/answers-funbox-questions
 
-Это простое адаптивное одностраничное React приложение, в котором пользователь может интерактивно создавать маршрут на карте.
+This is a simple responsive single page React application in which the user can interactively create a route on a map.
 
-Этот проект представляет собой тестовое задание на позицию front-end разработчика. Приложение называется Route-creator-2022, но оно не создает каких-либо существующих маршрутов, которые можно использовать для путешествий в реальной жизни. В этом приложении мы просто соединяем точки ломаной линией, в заданном Пользователем порядке.
+This project is a test exercise for front-end developer position. It is called Route-creator-2022, but it doesn’t create some exist route that you can use in your real life or traveling.   In this application, we just connects points, in a given order, by a polyline.
 
-Основная цель этого проекта - показать один из возможных подходов взаимодействия приложения React с Yandex.Maps  API без использования дополнительных библиотек (например, react-yandex-maps).
+The main aim of this project is to show one of the possible approaches for interacting the React application with Yandex Maps without using additional libraries (e.g. react-yandex-maps).
 
-Ну и конечно же, я надеюсь этим проектом привлечь внимание потенциального работодателя :blush:.
 
 ### Tech Stack:
 

@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "connect-timeout": "^1.9.0",
     "lodash.shuffle": "^4.2.0",
     "nanoid": "^3.1.30",
     "react": "^17.0.2",
