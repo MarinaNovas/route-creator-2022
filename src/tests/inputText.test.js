@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import InputText from '../components/InputText';
 
 const props={
-  handleSetAddress:jest.fn()
+  handleSetPointName:jest.fn()
 }
 
 describe('InputText',()=>{
@@ -24,11 +24,12 @@ describe('InputText',()=>{
   it('handleKeyUp',()=>{
     render(<InputText {...props}/>);
     const textbox = screen.getByRole('textbox');
+
     fireEvent.keyUp(textbox,{
       code: 'Enter',
       key: "Enter",
       keyCode: 13
     });
-    expect(props.handleSetAddress).toHaveBeenCalledTimes(1);
+    expect(props.handleSetPointName).toHaveBeenCalledTimes(1);
   });
 });

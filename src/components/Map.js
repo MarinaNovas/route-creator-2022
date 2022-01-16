@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef, useEffect, useState, useCallback } from "react";
 
-import { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline} from "../useYandexMap";
+import { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline} from "../hooks/useYandexMap";
 
 import { drawerWidth, toolbarHeight, backgroundColorPrimary, toolbarHeightMin } from "./constants";
 import { styled } from "@mui/material";

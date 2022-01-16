@@ -39,8 +39,8 @@ export const content = {
         <li>Добавить точку маршрута</li>
         <li>Удалить точку маршрута</li>
         <li>Удалить все точки маршрута</li>
-        <li>Перемешать/(Тасовать) все адреса</li>
-        <li>Переместить отдельный адрес в списке</li>
+        <li>Перемешать/(Тасовать) все точки</li>
+        <li>Переместить отдельную точку в списке</li>
         <li>Переместить маркер на карте</li>
         <li>Получить информацию о маркере/метке на карте</li>
         <li>Изменить язык</li>
@@ -82,8 +82,8 @@ export const content = {
       <li>Add a route point to map</li>
       <li>Delete a route point</li>
       <li>Delete all route points</li>
-      <li>Shuffle all addresses</li>
-      <li>Move a single address in the list</li>
+      <li>Shuffle all points</li>
+      <li>Move a single point in the list</li>
       <li>Move a marker on the map</li>
       <li>Get information about a marker(place mark) on the map</li>
       <li>Change the language</li>

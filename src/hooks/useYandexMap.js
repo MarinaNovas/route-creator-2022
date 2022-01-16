@@ -1,6 +1,6 @@
 
 import { useContext, useEffect, useState, useCallback } from 'react';
-import { LanguageContext } from './context/Context';
+import { LanguageContext } from '../context/Context';
 import { nanoid } from 'nanoid';
 import shuffle from 'lodash.shuffle';
 
