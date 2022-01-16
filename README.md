@@ -2,7 +2,8 @@
 
 ### Ответы на теорию по ссылке: https://github.com/MarinaNovas/answers-funbox-questions
 
-This is a simple responsive single page React application in which the user can interactively create a route on a map.
+
+Это простое адаптивное React приложение, в котором пользователь может интерактивно создавать маршрут на карте.
 
 This project is a test exercise for front-end developer position. It is called Route-creator-2022, but it doesn’t create some exist route that you can use in your real life or traveling.   In this application, we just connects points, in a given order, by a polyline.
 
