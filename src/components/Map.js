@@ -60,7 +60,7 @@ const polylineProjectionProperties = [
 ];
 
 
-function Map({ address, getAddressesList, addressesListChanged, addressDeleted, deleteAll, open}) {
+function Map({ pointName, getAddressesList, addressesListChanged, addressDeleted, deleteAll, open}) {
   const refMapContainer = useRef(null);
   const { yMaps, yMapObject, setYMapObject, yMapIsAvailable } = useYandexMap(refMapContainer.current);
   const [polylineCoordinates, setPolylineCoordinates] = useState([]);
@@ -71,24 +71,24 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
   //put a new markPoint on the Map
   const updateYMapObject = useCallback(() => {
 
-    if (!address) return;
+    if (!pointName) return;
 
     const center = yMapObject.getCenter();
 
     getGeocoderData(yMaps, false, center)
       .then((geoObjectData) => {
         const placemark = createPlacemark(yMaps, geoObjectData, setDragStart, setNewCoordinates);
-        placemark.properties.set('balloonContentHeader', `<div style="color:#2b71ff">${address}</div>`);
+        placemark.properties.set('balloonContentHeader', `<div style="color:#2b71ff">${pointName}</div>`);
         setYMapObject(prevYMapObject => {
           prevYMapObject.geoObjects.add(placemark);
           return prevYMapObject;
         });
-        const geoObjectDataTemp = Object.assign({ name: address }, geoObjectData);
+        const geoObjectDataTemp = Object.assign({ name: pointName }, geoObjectData);
         setPolylineCoordinates((data) => [...data, geoObjectDataTemp]);
       }).catch(alert);
 
 
-  }, [yMaps, yMapObject, address, setYMapObject]);
+  }, [yMaps, yMapObject, pointName, setYMapObject]);
 
   //refresh a polyline and a state of addressList
   const updatePolyline = useCallback(() => {
@@ -120,7 +120,7 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
   useEffect(() => {
     if (!yMapIsAvailable) return;
     updateYMapObject();
-  }, [yMaps, yMapIsAvailable, yMapObject, address, updateYMapObject]);
+  }, [yMaps, yMapIsAvailable, yMapObject, pointName, updateYMapObject]);
 
 
   //call updatePolyline wich refresh a polyline and a state of addressList

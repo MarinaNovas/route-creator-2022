@@ -19,7 +19,7 @@ const SendButton = styled(IconButton)(({theme})=>({
   }
 }));
 
-function InputText({ handleSetAddress }) {
+function InputText({ handleSetPointName }) {
 
   const theme = useTheme();
 
@@ -28,12 +28,12 @@ function InputText({ handleSetAddress }) {
 
   const handleKeyUp = (e) => {
     if (e.code !== 'Enter') return;
-    handleSetAddress(inputValue);
+    handleSetPointName(inputValue);
     setInputValue('');
   }
 
   const handleSendButton = ()=>{
-    handleSetAddress(inputValue);
+    handleSetPointName(inputValue);
     setInputValue('');
   }
 

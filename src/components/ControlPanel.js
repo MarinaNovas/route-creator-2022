@@ -12,7 +12,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Box from '@mui/material/Box';
 
 
-function ControlPanel({ handleSetAddress, addressesList, handleShuffleClick, handleDeleteAll, handleDelete, open, handleOpenControlPanel, handleJumbledAddress}) {
+function ControlPanel({ handleSetPointName, addressesList, handleShuffleClick, handleDeleteAll, handleDelete, open, handleOpenControlPanel, handleJumbledAddress}) {
 
   const theme = useTheme();
   function handleOnDragEnd(result) {
@@ -30,7 +30,7 @@ function ControlPanel({ handleSetAddress, addressesList, handleShuffleClick, han
   return (
     <Drawer open={open} handleOpenControlPanel={handleOpenControlPanel}>
 
-     <InputText handleSetAddress={handleSetAddress} /> 
+     <InputText handleSetPointName={handleSetPointName} /> 
 
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="characters">

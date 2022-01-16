@@ -1,4 +1,6 @@
 import React from "react";
+
+import useRouteCreator from './useRouteCreator';
 import { useState, useCallback} from "react";
 import { languages, LanguageContext } from './context/Context';
 
@@ -15,14 +17,27 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 function App() {
 
+  const {
+      pointName, 
+      handleSetPointName, 
+      addressesList, 
+      getAddressesList, 
+      addressesListChanged, 
+      handleShuffleClick, 
+      handleJumbledAddress, 
+      addressDeleted, 
+      handleDelete, 
+      deleteAll, 
+      handleDeleteAll} = useRouteCreator();
   const [openControlPanel, setOpenControlPanel] = useState(true);
   const [openInfirmationDialog, setOpenInfirmationDialog] = useState(false);
-  const [address, setAddress] = useState(null);
+  /* const [pointName, setPointName] = useState(null);
   const [addressesList, setAddressesList] = useState(null);
   const [addressesListChanged, setAddressesListChanged] = useState(null);
   const [addressDeleted, setAddressDeleted] = useState(null);
+  const [deleteAll, setDeleteAll] = useState(false); */
   const [language, setLanguage] = useState(languages[0]);
-  const [deleteAll, setDeleteAll] = useState(false);
+
 
 
   function handleOpenInfirmationDialog() {
@@ -32,7 +47,8 @@ function App() {
   const handleOpenControlPanel = () => {
     setOpenControlPanel(openControlPanel => !openControlPanel);
   }
-  function handleShuffleClick() {
+
+/*   function handleShuffleClick() {
     setAddressesListChanged(shuffle(addressesList));
   }
 
@@ -51,20 +67,20 @@ function App() {
     setDeleteAll(true);
   }
 
-  function handleSetAddress(newAddress) {
-    setAddress(newAddress);
-  }
+  function handleSetPointName(newPointName) {
+    setPointName(newPointName);
+  } */
 
   function handleSetLanguage() {
     setLanguage((currentLanguage) => currentLanguage === 'ru' ? languages[1] : languages[0]);
   }
 
-  const getAddressesList = useCallback((addresses) => {
+/*   const getAddressesList = useCallback((addresses) => {
     setAddressesList(addresses);
-    setAddress(null);
+    setPointName(null);
     setDeleteAll(false);
   }, [setAddressesList]);
-
+ */
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', backgroundColor: backgroundColorPrimary }}>
@@ -84,7 +100,7 @@ function App() {
         />
 
         <ControlPanel
-          handleSetAddress={handleSetAddress}
+          handleSetPointName={handleSetPointName}
           addressesList={addressesList}
           handleShuffleClick={handleShuffleClick}
           handleDeleteAll={handleDeleteAll}
@@ -95,7 +111,7 @@ function App() {
         />
 
         <Map 
-          address={address} 
+          pointName={pointName} 
           getAddressesList={getAddressesList} 
           addressesListChanged={addressesListChanged} 
           addressDeleted={addressDeleted} 
