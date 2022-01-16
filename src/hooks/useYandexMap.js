@@ -5,9 +5,7 @@ import { nanoid } from 'nanoid';
 import shuffle from 'lodash.shuffle';
 
 
-//const apikey = '8cd86709-0417-4e3e-bfe9-79ae038970be';
-const apikey = 'f547e19a-163a-47c9-88d3-d3ed658f546e';
-
+const apikey = '8cd86709-0417-4e3e-bfe9-79ae038970be';
 
 const pointIcons = shuffle([
   'islands#blueCircleDotIcon',
