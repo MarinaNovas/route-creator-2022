@@ -34,26 +34,10 @@ function getRandomIcon() {
   return pointIcons[index];
 };
 
-async function getGeocoderDataList(yMaps, address){
-
-  const promiseGeocodeData = await yMaps.geocode(address, { results: 10 });
-  const responseGeocodeData = await promiseGeocodeData;
-  const addressList =[];
-
-  responseGeocodeData.geoObjects.each((geoObject)=>{
-    addressList.push({address:geoObject.properties.get('text'), key:nanoid(10)});
-    //console.log(geoObject.properties.get('text')); //!!!!!!!!!!!!!14.01
-  });
-
-  return addressList;
-}
-
+//return geocoding result
 async function getGeocoderData(yMaps, address, coords) {
   const inputData = address ? address : coords;
-  //console.log(yMaps);
-  //console.log(inputData);
   const promiseGeocodeData = await yMaps.geocode(inputData, { results: 1 });
-  console.log(promiseGeocodeData);
   const responseGeocodeData = await promiseGeocodeData;
  
   const geoObject = responseGeocodeData.geoObjects.get(0);
@@ -64,14 +48,7 @@ async function getGeocoderData(yMaps, address, coords) {
   return { id, coords: geoCoords, address: geoAddress };
 }
 
-function createGeoObjectData(yMapObject, name){
-  const center = yMapObject.getCenter();
-  const id = nanoid(10);
-  const address = 'Россия, Москва, Красная площадь, 3';
-
-  return {name, id, coords:center, address}
-}
-
+//create a new placemark, set event handlers and return a new object
 function createPlacemark(yMaps, geoObject, setDragStart, setNewCoordinates) {
   const placemark = new yMaps.Placemark(geoObject.coords, {
     type: 'point',
@@ -103,7 +80,7 @@ function createPlacemark(yMaps, geoObject, setDragStart, setNewCoordinates) {
   return placemark;
 }
 
-
+//create and return a new polyline
 function CreatePolyline(yMaps, coordinates, properties) {
 
   try{
@@ -118,6 +95,7 @@ function CreatePolyline(yMaps, coordinates, properties) {
   }
 }
 
+//set connect Ymaps and create YMapObject. Set and export corresponding hooks
 function useYandexMap(refMap) {
   const [yMaps, setYMaps] = useState(null);
   const [yMapObject, setYMapObject] = useState(null);
@@ -194,4 +172,4 @@ function useYandexMap(refMap) {
   return { yMaps, yMapObject, setYMapObject, yMapIsAvailable};
 }
 
-export { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline, getGeocoderDataList, createGeoObjectData };
+export { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline};

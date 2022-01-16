@@ -11,7 +11,7 @@ const props={
 describe('InputText',()=>{
   it('should render inputText',()=>{
     render(<InputText {...props}/>);
-    expect(screen.getByLabelText(/Введите адрес/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/(Введите)|(Enter)/i)).toBeInTheDocument();
   });
   it('should render input',()=>{
     render(<InputText {...props}/>);

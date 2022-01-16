@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef, useEffect, useState, useCallback } from "react";
 
-import { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline, getGeocoderDataList, createGeoObjectData } from "../useYandexMap";
+import { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline} from "../useYandexMap";
 
 import { drawerWidth, toolbarHeight, backgroundColorPrimary, toolbarHeightMin } from "./constants";
 import { styled } from "@mui/material";
@@ -60,7 +60,7 @@ const polylineProjectionProperties = [
 ];
 
 
-function Map({ address, getAddressesList, addressesListChanged, addressDeleted, deleteAll, open, autoAddress, handleSetAutoCompleteList }) {
+function Map({ address, getAddressesList, addressesListChanged, addressDeleted, deleteAll, open}) {
   const refMapContainer = useRef(null);
   const { yMaps, yMapObject, setYMapObject, yMapIsAvailable } = useYandexMap(refMapContainer.current);
   const [polylineCoordinates, setPolylineCoordinates] = useState([]);
@@ -73,41 +73,8 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
 
     if (!address) return;
 
-    getGeocoderData(yMaps, address, false)
-      .then(geoObjectData => {
-        const placemark = createPlacemark(yMaps, geoObjectData, setDragStart, setNewCoordinates);
-        setYMapObject(prevYMapObject => {
-          prevYMapObject.geoObjects.add(placemark);
-          prevYMapObject.setBounds(prevYMapObject.geoObjects.getBounds(), { checkZoomRange: true });
-          return prevYMapObject;
-        });
-        setPolylineCoordinates((data) => [...data, geoObjectData]);
-      }).catch(alert);
-
-  }, [yMaps, address, setYMapObject]);
-
-
-  //put a new markPoint on the Map
-  const updateYMapObjectNew = useCallback(() => {
-
-    if (!address) return;
-
     const center = yMapObject.getCenter();
 
-    //const geoObjectData = createGeoObjectData(yMapObject, address);
-
-    /*   try {
-        const placemark = createPlacemark(yMaps, geoObjectData, setDragStart, setNewCoordinates);
-        placemark.properties.set('balloonContentHeader', `<div style="color:#2b71ff">${address}</div>`);
-        setYMapObject(prevYMapObject => {
-          prevYMapObject.geoObjects.add(placemark);
-          prevYMapObject.setBounds(prevYMapObject.geoObjects.getBounds(), { checkZoomRange: true });
-          return prevYMapObject;
-        });
-        setPolylineCoordinates((data) => [...data, geoObjectData]);
-      } catch(e){
-        alert(e);
-      } */
     getGeocoderData(yMaps, false, center)
       .then((geoObjectData) => {
         const placemark = createPlacemark(yMaps, geoObjectData, setDragStart, setNewCoordinates);
@@ -118,7 +85,7 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
         });
         const geoObjectDataTemp = Object.assign({ name: address }, geoObjectData);
         setPolylineCoordinates((data) => [...data, geoObjectDataTemp]);
-      }).catch((e) => alert('Вот эта ошибка'));
+      }).catch(alert);
 
 
   }, [yMaps, yMapObject, address, setYMapObject]);
@@ -152,32 +119,9 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
   //call updateYMapObject wich put a new markPoint on the Map
   useEffect(() => {
     if (!yMapIsAvailable) return;
-    updateYMapObjectNew();
-  }, [yMaps, yMapIsAvailable, yMapObject, address, updateYMapObjectNew]);
+    updateYMapObject();
+  }, [yMaps, yMapIsAvailable, yMapObject, address, updateYMapObject]);
 
-  ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
-  const updateAutocomleteList = useCallback(() => {
-    if (!autoAddress) return;
-    getGeocoderDataList(yMaps, autoAddress)
-      .then((list) => {
-        //console.log(list);
-        handleSetAutoCompleteList(list);
-      });
-  }, [yMaps, handleSetAutoCompleteList, autoAddress]);
-
-  useEffect(() => {
-    //updateAutocomleteList();
-
-    if (!autoAddress) return;
-    getGeocoderDataList(yMaps, autoAddress)
-      .then((list) => {
-        //console.log(list);
-        handleSetAutoCompleteList(list);
-      });
-  }, [yMaps, handleSetAutoCompleteList, autoAddress, updateAutocomleteList]);
-
-  ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
   //call updatePolyline wich refresh a polyline and a state of addressList
   useEffect(() => {
@@ -286,7 +230,6 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
     if (!addressDeleted) return;
 
     setPolylineCoordinates(prevPolylineCoordinates => {
-
       const newPolylineCoordinates = prevPolylineCoordinates.filter(item => item.id !== addressDeleted.id);
       return newPolylineCoordinates;
     });
@@ -315,8 +258,6 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
           placemark.properties.set('balloonContentHeader', `<div style="color:#2b71ff">${coords.name}</div>`);
           setYMapObject(prevYMapObject => {
             prevYMapObject.geoObjects.add(placemark);
-            //prevYMapObject.setBounds(prevYMapObject.geoObjects.getBounds(), { checkZoomRange: true });
-            //prevYMapObject.setBounds(prevYMapObject.getCenter(), { checkZoomRange: true });
             return prevYMapObject;
           });
         });
@@ -324,6 +265,7 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
     }
   });
 
+  //update a map zoom after show|hide a control panel
   useEffect(() => {
     if (!yMapIsAvailable) return;
 

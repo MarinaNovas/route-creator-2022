@@ -11,7 +11,7 @@ describe('app',()=>{
   });
   it('should render ControlPanel',()=>{
     render(<App />);
-    expect(screen.getByLabelText(/Введите адрес/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/(Введите)|(Enter)/i)).toBeInTheDocument();
   });
 
   it('should render Buttons',()=>{

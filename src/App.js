@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback} from "react";
 import { languages, LanguageContext } from './context/Context';
 
 import Map from './components/Map';
@@ -24,23 +24,6 @@ function App() {
   const [language, setLanguage] = useState(languages[0]);
   const [deleteAll, setDeleteAll] = useState(false);
 
-
-  ////!!!!!!!!!!!1
-  const [autoAddress, setAutoAddress]=useState(null);
-  const [autoComleteList, setAutoCompleteList]=useState([]);
-
-
-  const handleSetAutoAddress = useCallback((value)=>{
-    setAutoAddress(value);
-  },[setAutoAddress]);
-
-
-
-  const  handleSetAutoCompleteList = useCallback((list)=>{
-    setAutoCompleteList(list);
-    setAutoAddress(null);
-  },[setAutoCompleteList]);
-  ////!!!!!!!!!!!1
 
   function handleOpenInfirmationDialog() {
     setOpenInfirmationDialog(currentState => !currentState);
@@ -80,12 +63,7 @@ function App() {
     setAddressesList(addresses);
     setAddress(null);
     setDeleteAll(false);
-    setAutoCompleteList([]);
   }, [setAddressesList]);
-
-  useEffect(() => {
-    window.onscroll = null;
-  }, []);
 
 
   return (
@@ -114,9 +92,6 @@ function App() {
           open={openControlPanel}
           handleOpenControlPanel={handleOpenControlPanel}
           handleJumbledAddress={handleJumbledAddress}
-
-          handleSetAutoAddress={handleSetAutoAddress}
-          autoComleteList={autoComleteList}
         />
 
         <Map 
@@ -126,9 +101,6 @@ function App() {
           addressDeleted={addressDeleted} 
           deleteAll={deleteAll} 
           open={openControlPanel} 
-
-          autoAddress={autoAddress}
-          handleSetAutoCompleteList={handleSetAutoCompleteList}
         />
       </LanguageContext.Provider>
     </Box>
