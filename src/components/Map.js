@@ -1,32 +1,32 @@
 import React from "react";
 import { useRef, useEffect, useState, useCallback } from "react";
 
-import { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline, getGeocoderDataList, createGeoObjectData} from "../useYandexMap";
+import { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline, getGeocoderDataList, createGeoObjectData } from "../useYandexMap";
 
-import { drawerWidth, toolbarHeight,backgroundColorPrimary, toolbarHeightMin} from "./constants";
+import { drawerWidth, toolbarHeight, backgroundColorPrimary, toolbarHeightMin } from "./constants";
 import { styled } from "@mui/material";
 import Box from "@mui/material/Box";
 
-const Main=styled(Box, {shouldForwardProp: (prop)=>prop!=='open'})(
-  ({theme,open})=>({
-    height:`calc(100% - ${toolbarHeight}px)`,
-    backgroundColor:backgroundColorPrimary,
-    transition:theme.transitions.create('width,margin',{
-      easing:theme.transitions.easing.sharp,
-      duration:theme.transitions.duration.leavingScreen
+const Main = styled(Box, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    height: `calc(100% - ${toolbarHeight}px)`,
+    backgroundColor: backgroundColorPrimary,
+    transition: theme.transitions.create('width,margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
     }),
-    width:'100%',
-    marginLeft:'auto',
-    marginTop:toolbarHeight,
+    width: '100%',
+    marginLeft: 'auto',
+    marginTop: toolbarHeight,
     ...(open && {
-      transition:theme.transitions.create('width,margin',{
-        easing:theme.transitions.easing.easeOut,
-        duration:theme.transitions.duration.enteringScreen
+      transition: theme.transitions.create('width,margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen
       }),
-      width:`calc(100% - ${drawerWidth}px)`,
+      width: `calc(100% - ${drawerWidth}px)`,
     }),
-    [theme.breakpoints.down('sm')]:{
-      marginTop:toolbarHeightMin
+    [theme.breakpoints.down('sm')]: {
+      marginTop: toolbarHeightMin
     }
   })
 );
@@ -60,7 +60,7 @@ const polylineProjectionProperties = [
 ];
 
 
-function Map({ address, getAddressesList, addressesListChanged, addressDeleted, deleteAll, open, autoAddress,handleSetAutoCompleteList}) {
+function Map({ address, getAddressesList, addressesListChanged, addressDeleted, deleteAll, open, autoAddress, handleSetAutoCompleteList }) {
   const refMapContainer = useRef(null);
   const { yMaps, yMapObject, setYMapObject, yMapIsAvailable } = useYandexMap(refMapContainer.current);
   const [polylineCoordinates, setPolylineCoordinates] = useState([]);
@@ -87,20 +87,41 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
   }, [yMaps, address, setYMapObject]);
 
 
-    //put a new markPoint on the Map
+  //put a new markPoint on the Map
   const updateYMapObjectNew = useCallback(() => {
 
-      if (!address) return;
+    if (!address) return;
 
-      const geoObjectData = createGeoObjectData(yMaps, yMapObject, address);
-      const placemark = createPlacemark(yMaps, geoObjectData, setDragStart, setNewCoordinates);
-      setYMapObject(prevYMapObject => {
-        prevYMapObject.geoObjects.add(placemark);
-        return prevYMapObject;
-      });
-      setPolylineCoordinates((data) => [...data, geoObjectData]);
-  
-    }, [yMaps, yMapObject, address, setYMapObject]);
+    const center = yMapObject.getCenter();
+
+    //const geoObjectData = createGeoObjectData(yMapObject, address);
+
+    /*   try {
+        const placemark = createPlacemark(yMaps, geoObjectData, setDragStart, setNewCoordinates);
+        placemark.properties.set('balloonContentHeader', `<div style="color:#2b71ff">${address}</div>`);
+        setYMapObject(prevYMapObject => {
+          prevYMapObject.geoObjects.add(placemark);
+          prevYMapObject.setBounds(prevYMapObject.geoObjects.getBounds(), { checkZoomRange: true });
+          return prevYMapObject;
+        });
+        setPolylineCoordinates((data) => [...data, geoObjectData]);
+      } catch(e){
+        alert(e);
+      } */
+    getGeocoderData(yMaps, false, center)
+      .then((geoObjectData) => {
+        const placemark = createPlacemark(yMaps, geoObjectData, setDragStart, setNewCoordinates);
+        placemark.properties.set('balloonContentHeader', `<div style="color:#2b71ff">${address}</div>`);
+        setYMapObject(prevYMapObject => {
+          prevYMapObject.geoObjects.add(placemark);
+          return prevYMapObject;
+        });
+        const geoObjectDataTemp = Object.assign({ name: address }, geoObjectData);
+        setPolylineCoordinates((data) => [...data, geoObjectDataTemp]);
+      }).catch((e) => alert('Вот эта ошибка'));
+
+
+  }, [yMaps, yMapObject, address, setYMapObject]);
 
   //refresh a polyline and a state of addressList
   const updatePolyline = useCallback(() => {
@@ -130,31 +151,31 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
 
   //call updateYMapObject wich put a new markPoint on the Map
   useEffect(() => {
-    if(!yMapIsAvailable) return;
+    if (!yMapIsAvailable) return;
     updateYMapObjectNew();
-  }, [yMaps,yMapIsAvailable,address, updateYMapObjectNew]);
+  }, [yMaps, yMapIsAvailable, yMapObject, address, updateYMapObjectNew]);
 
   ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
-  const updateAutocomleteList = useCallback(()=>{
-    if(!autoAddress) return;
-    getGeocoderDataList(yMaps,autoAddress)
-      .then((list)=>{
+  const updateAutocomleteList = useCallback(() => {
+    if (!autoAddress) return;
+    getGeocoderDataList(yMaps, autoAddress)
+      .then((list) => {
         //console.log(list);
         handleSetAutoCompleteList(list);
       });
-  },[yMaps,handleSetAutoCompleteList, autoAddress]);
+  }, [yMaps, handleSetAutoCompleteList, autoAddress]);
 
-  useEffect(()=>{
+  useEffect(() => {
     //updateAutocomleteList();
 
-    if(!autoAddress) return;
-    getGeocoderDataList(yMaps,autoAddress)
-      .then((list)=>{
+    if (!autoAddress) return;
+    getGeocoderDataList(yMaps, autoAddress)
+      .then((list) => {
         //console.log(list);
         handleSetAutoCompleteList(list);
       });
-  },[yMaps,handleSetAutoCompleteList, autoAddress,updateAutocomleteList]);
+  }, [yMaps, handleSetAutoCompleteList, autoAddress, updateAutocomleteList]);
 
   ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
@@ -173,11 +194,11 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
             setYMapObject((yMapObject) => {
               yMapObject.geoObjects.each((geoObject) => {
                 geoObject.properties.set('id', geoObjectData.id);
-                geoObject.properties.set('balloonContent', geoObjectData.address);
+                geoObject.properties.set('balloonContentBody', geoObjectData.address);
               });
               return yMapObject;
             });
-            setPolylineCoordinates([{ id: geoObjectData.id, coords: newCoordinates.coords, address: geoObjectData.address }]);
+            setPolylineCoordinates(prevPolylineCoordinates => [{ name: prevPolylineCoordinates[0].name, id: geoObjectData.id, coords: newCoordinates.coords, address: geoObjectData.address }]);
             setNewCoordinates(null);
           })
           .catch(alert);
@@ -238,12 +259,12 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
               if (geoObject.properties.get('id') === newCoordinates.id) {
 
                 geoObject.properties.set('id', geoObjectData.id);
-                geoObject.properties.set('balloonContent', geoObjectData.address);
+                geoObject.properties.set('balloonContentBody', geoObjectData.address);
               }
             });
             return yMapObject;
           });
-          setPolylineCoordinates((coordinatesPrev) => coordinatesPrev.map((item) => item.id === newCoordinates.id ? { id: geoObjectData.id, coords: newCoordinates.coords, address: geoObjectData.address } : item));
+          setPolylineCoordinates((coordinatesPrev) => coordinatesPrev.map((item) => item.id === newCoordinates.id ? { name: item.name, id: geoObjectData.id, coords: newCoordinates.coords, address: geoObjectData.address } : item));
           setNewCoordinates(null);
         })
         .catch(alert);
@@ -282,7 +303,7 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
 
   }, [setYMapObject, addressDeleted]);
 
-//update markplaces on the map after changing language
+  //update markplaces on the map after changing language
   useEffect(() => {
 
     if (!yMapIsAvailable) return;
@@ -291,45 +312,50 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
       if (!yMapObject.geoObjects.get(0)) {
         polylineCoordinates.forEach((coords) => {
           const placemark = createPlacemark(yMaps, coords, setDragStart, setNewCoordinates);
+          placemark.properties.set('balloonContentHeader', `<div style="color:#2b71ff">${coords.name}</div>`);
           setYMapObject(prevYMapObject => {
             prevYMapObject.geoObjects.add(placemark);
-            prevYMapObject.setBounds(prevYMapObject.geoObjects.getBounds(), { checkZoomRange: true });
+            //prevYMapObject.setBounds(prevYMapObject.geoObjects.getBounds(), { checkZoomRange: true });
+            //prevYMapObject.setBounds(prevYMapObject.getCenter(), { checkZoomRange: true });
             return prevYMapObject;
           });
-        }); 
+        });
       }
     }
   });
 
-  useEffect(()=>{
-    if(!yMapIsAvailable) return;
+  useEffect(() => {
+    if (!yMapIsAvailable) return;
 
-    setYMapObject((YMapObject)=>{
+    setYMapObject((YMapObject) => {
       YMapObject.container.fitToViewport();
-      if(YMapObject.geoObjects.getBounds()){
+      if (YMapObject.geoObjects.getBounds()) {
         YMapObject.setBounds(YMapObject.geoObjects.getBounds(), { checkZoomRange: true });
       }
       return YMapObject;
     });
-  },[open,setYMapObject,yMapIsAvailable]);
+  }, [open, setYMapObject, yMapIsAvailable]);
 
-//remove all geoObjects and polylines
-  useEffect(()=>{
+  //remove all geoObjects and polylines
+  useEffect(() => {
 
-    if(!deleteAll) return;
+    if (!deleteAll) return;
 
     setPolylineCoordinates([]);
 
-    setYMapObject(yMapObject=>{
+    setYMapObject(yMapObject => {
       yMapObject.geoObjects.removeAll();
       return yMapObject;
     });
 
-  },[deleteAll,setYMapObject]);
+  }, [deleteAll, setYMapObject]);
 
   return (
-    <Main ref={refMapContainer} open={open}/>
+    <Main ref={refMapContainer} open={open} />
   );
 }
 
 export default Map;
+
+
+

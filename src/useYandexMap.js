@@ -50,7 +50,10 @@ async function getGeocoderDataList(yMaps, address){
 
 async function getGeocoderData(yMaps, address, coords) {
   const inputData = address ? address : coords;
+  //console.log(yMaps);
+  //console.log(inputData);
   const promiseGeocodeData = await yMaps.geocode(inputData, { results: 1 });
+  console.log(promiseGeocodeData);
   const responseGeocodeData = await promiseGeocodeData;
  
   const geoObject = responseGeocodeData.geoObjects.get(0);
@@ -61,11 +64,12 @@ async function getGeocoderData(yMaps, address, coords) {
   return { id, coords: geoCoords, address: geoAddress };
 }
 
-function createGeoObjectData(yMaps,yMapObject, address){
+function createGeoObjectData(yMapObject, name){
   const center = yMapObject.getCenter();
   const id = nanoid(10);
+  const address = 'Россия, Москва, Красная площадь, 3';
 
-  return {id, coords:center, address}
+  return {name, id, coords:center, address}
 }
 
 function createPlacemark(yMaps, geoObject, setDragStart, setNewCoordinates) {
@@ -73,7 +77,7 @@ function createPlacemark(yMaps, geoObject, setDragStart, setNewCoordinates) {
     type: 'point',
     id: geoObject.id,
     iconContent: '',
-    balloonContent: geoObject.address,
+    balloonContentBody: geoObject.address,
   }, {
     preset: getRandomIcon(),
     draggable: true
@@ -133,7 +137,7 @@ function useYandexMap(refMap) {
       {
         minZoom: 1,
         maxZoom: 11,
-        autoFitToViewport: 'always'
+        autoFitToViewport: 'always', 
       },
       {
         searchControlProvider: 'yandex#search',

@@ -8,12 +8,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from "@mui/material/Typography";
 import '../App.css';
 
+
 const blueGradient = 'linear-gradient(180deg, #6b9dff, #2b71ff)';
 
 const AddressFormPaper = styled(Paper)(({ theme }) => ({
   borderRadius: 8,
   marginBottom: theme.spacing(2),
-  width: 413,
+  //width: 413,
+  width:'100%',
   flex: '0 1 auto',
   display: 'flex',
   flexDirection: 'column',
@@ -27,8 +29,9 @@ const AddressFormPaper = styled(Paper)(({ theme }) => ({
 const AddressFormHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
+  justifyContent: 'space-between',
   padding: 5,
+  paddingLeft:15,
   position: 'relative',
 }));
 
@@ -56,7 +59,7 @@ const CloseButton = styled(Button)(({ theme }) => ({
   background: blueGradient
 }));
 
-function AddressForm({innerRef, provided, index, address, id, handleDelete}) {
+function AddressForm({innerRef, provided, index, name, address, id, handleDelete}) {
   const formRef = useRef();
 
 
@@ -89,6 +92,7 @@ function AddressForm({innerRef, provided, index, address, id, handleDelete}) {
         ref={formRef}
       >
         <AddressFormHeader>
+          <Typography variant="subtitle1" sx={{color:'#2b71ff', fontStyle:'italic'}}>{name}</Typography>
           <CloseButton variant="contained" onClick={handleCloseBtn}>
             <CloseIcon />
           </CloseButton>

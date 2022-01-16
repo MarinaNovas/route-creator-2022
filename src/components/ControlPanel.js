@@ -2,8 +2,7 @@ import React from "react";
 
 import Drawer from "./Drawer";
 import { useTheme } from "@mui/material/styles";
-//import InputText from "./InputText";
-import AutocompleteInput from "./AutocompleteInput";
+import InputText from "./InputText";
 import Button from "./Button";
 import AddressFormesContainer from "./AddressFormesContainer";
 import AddressForm from "./AddressForm";
@@ -30,14 +29,8 @@ function ControlPanel({ handleSetAddress, addressesList, handleShuffleClick, han
 
   return (
     <Drawer open={open} handleOpenControlPanel={handleOpenControlPanel}>
-     
-      <AutocompleteInput
-        autoComleteList = {autoComleteList}
-        handleSetAutoAddress = {handleSetAutoAddress}
-        handleSetAddress={handleSetAddress}
-      />
 
-      {/* <InputText handleSetAddress={handleSetAddress} /> */}
+     <InputText handleSetAddress={handleSetAddress} /> 
 
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="characters">
@@ -55,6 +48,7 @@ function ControlPanel({ handleSetAddress, addressesList, handleShuffleClick, han
                               provided={provided}
                               key={item.id}
                               index={index}
+                              name = {item.name}
                               address={item.address}
                               id={item.id}
                               handleDelete={handleDelete} />

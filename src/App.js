@@ -29,21 +29,11 @@ function App() {
   const [autoAddress, setAutoAddress]=useState(null);
   const [autoComleteList, setAutoCompleteList]=useState([]);
 
- /*  function handleSetAutoAddress(value){
-    if (value.length<3) return;
-    setAutoAddress(value);
-  } */
 
   const handleSetAutoAddress = useCallback((value)=>{
-    //if (value.length<3) return;
     setAutoAddress(value);
   },[setAutoAddress]);
 
-
-  /* function handleSetAutoCompleteList(list){
-    setAutoCompleteList(list);
-    setAutoAddress(null);
-  } */
 
 
   const  handleSetAutoCompleteList = useCallback((list)=>{

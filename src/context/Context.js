@@ -7,7 +7,7 @@ export const content = {
   ru: {
     buttonShuffle: 'Перемешать',
     buttonDeleteAll: 'Удалить все',
-    inputPlaceholder: 'Введите адрес...',
+    inputPlaceholder: 'Введите название точки...',
     dialogWindowTitle: 'Информация о приложении',
     description: `
     <div>
@@ -51,7 +51,7 @@ export const content = {
   en: {
     buttonShuffle: 'Shuffle',
     buttonDeleteAll: 'Delete All',
-    inputPlaceholder: 'Enter address...',
+    inputPlaceholder: 'Enter point name...',
     dialogWindowTitle: 'Information about this application',
     description: `
     <div>

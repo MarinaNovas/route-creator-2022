@@ -40,7 +40,7 @@ function DialogWindow({ open, handleOpenInfirmationDialog }) {
         <IconButton onClick={handleOpenInfirmationDialog} sx={{ color: '#ffffff' }}><CloseIcon fontSize='large' /></IconButton>
       </DialogActions>
       <DialogContent sx={{ minHeight: '200px', overflowY: 'auto' }}>
-        <DialogContentText>
+        <DialogContentText component='div'>
           <div className='content' dangerouslySetInnerHTML={{ __html:content[language].description}}/>
         </DialogContentText>
       </DialogContent>
