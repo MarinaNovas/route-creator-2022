@@ -5,7 +5,8 @@ import { nanoid } from 'nanoid';
 import shuffle from 'lodash.shuffle';
 
 
-const apikey = '8cd86709-0417-4e3e-bfe9-79ae038970be';
+//const apikey = '8cd86709-0417-4e3e-bfe9-79ae038970be';
+const apikey = 'f547e19a-163a-47c9-88d3-d3ed658f546e';
 
 
 const pointIcons = shuffle([
@@ -33,17 +34,38 @@ function getRandomIcon() {
   return pointIcons[index];
 };
 
+async function getGeocoderDataList(yMaps, address){
+
+  const promiseGeocodeData = await yMaps.geocode(address, { results: 10 });
+  const responseGeocodeData = await promiseGeocodeData;
+  const addressList =[];
+
+  responseGeocodeData.geoObjects.each((geoObject)=>{
+    addressList.push({address:geoObject.properties.get('text'), key:nanoid(10)});
+    //console.log(geoObject.properties.get('text')); //!!!!!!!!!!!!!14.01
+  });
+
+  return addressList;
+}
 
 async function getGeocoderData(yMaps, address, coords) {
   const inputData = address ? address : coords;
   const promiseGeocodeData = await yMaps.geocode(inputData, { results: 1 });
   const responseGeocodeData = await promiseGeocodeData;
+ 
   const geoObject = responseGeocodeData.geoObjects.get(0);
   const geoCoords = geoObject.geometry.getCoordinates();
   const id = nanoid(10);
   const geoAddress = geoObject.properties.get('text');
 
   return { id, coords: geoCoords, address: geoAddress };
+}
+
+function createGeoObjectData(yMaps,yMapObject, address){
+  const center = yMapObject.getCenter();
+  const id = nanoid(10);
+
+  return {id, coords:center, address}
 }
 
 function createPlacemark(yMaps, geoObject, setDragStart, setNewCoordinates) {
@@ -168,4 +190,4 @@ function useYandexMap(refMap) {
   return { yMaps, yMapObject, setYMapObject, yMapIsAvailable};
 }
 
-export { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline };
+export { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline, getGeocoderDataList, createGeoObjectData };

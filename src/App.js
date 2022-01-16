@@ -24,6 +24,34 @@ function App() {
   const [language, setLanguage] = useState(languages[0]);
   const [deleteAll, setDeleteAll] = useState(false);
 
+
+  ////!!!!!!!!!!!1
+  const [autoAddress, setAutoAddress]=useState(null);
+  const [autoComleteList, setAutoCompleteList]=useState([]);
+
+ /*  function handleSetAutoAddress(value){
+    if (value.length<3) return;
+    setAutoAddress(value);
+  } */
+
+  const handleSetAutoAddress = useCallback((value)=>{
+    //if (value.length<3) return;
+    setAutoAddress(value);
+  },[setAutoAddress]);
+
+
+  /* function handleSetAutoCompleteList(list){
+    setAutoCompleteList(list);
+    setAutoAddress(null);
+  } */
+
+
+  const  handleSetAutoCompleteList = useCallback((list)=>{
+    setAutoCompleteList(list);
+    setAutoAddress(null);
+  },[setAutoCompleteList]);
+  ////!!!!!!!!!!!1
+
   function handleOpenInfirmationDialog() {
     setOpenInfirmationDialog(currentState => !currentState);
   }
@@ -62,6 +90,7 @@ function App() {
     setAddressesList(addresses);
     setAddress(null);
     setDeleteAll(false);
+    setAutoCompleteList([]);
   }, [setAddressesList]);
 
   useEffect(() => {
@@ -95,9 +124,22 @@ function App() {
           open={openControlPanel}
           handleOpenControlPanel={handleOpenControlPanel}
           handleJumbledAddress={handleJumbledAddress}
+
+          handleSetAutoAddress={handleSetAutoAddress}
+          autoComleteList={autoComleteList}
         />
 
-        <Map address={address} getAddressesList={getAddressesList} addressesListChanged={addressesListChanged} addressDeleted={addressDeleted} deleteAll={deleteAll} open={openControlPanel} />
+        <Map 
+          address={address} 
+          getAddressesList={getAddressesList} 
+          addressesListChanged={addressesListChanged} 
+          addressDeleted={addressDeleted} 
+          deleteAll={deleteAll} 
+          open={openControlPanel} 
+
+          autoAddress={autoAddress}
+          handleSetAutoCompleteList={handleSetAutoCompleteList}
+        />
       </LanguageContext.Provider>
     </Box>
   );

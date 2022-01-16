@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef, useEffect, useState, useCallback } from "react";
 
-import { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline } from "../useYandexMap";
+import { useYandexMap, getGeocoderData, createPlacemark, CreatePolyline, getGeocoderDataList, createGeoObjectData} from "../useYandexMap";
 
 import { drawerWidth, toolbarHeight,backgroundColorPrimary, toolbarHeightMin} from "./constants";
 import { styled } from "@mui/material";
@@ -60,7 +60,7 @@ const polylineProjectionProperties = [
 ];
 
 
-function Map({ address, getAddressesList, addressesListChanged, addressDeleted, deleteAll, open}) {
+function Map({ address, getAddressesList, addressesListChanged, addressDeleted, deleteAll, open, autoAddress,handleSetAutoCompleteList}) {
   const refMapContainer = useRef(null);
   const { yMaps, yMapObject, setYMapObject, yMapIsAvailable } = useYandexMap(refMapContainer.current);
   const [polylineCoordinates, setPolylineCoordinates] = useState([]);
@@ -85,6 +85,22 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
       }).catch(alert);
 
   }, [yMaps, address, setYMapObject]);
+
+
+    //put a new markPoint on the Map
+  const updateYMapObjectNew = useCallback(() => {
+
+      if (!address) return;
+
+      const geoObjectData = createGeoObjectData(yMaps, yMapObject, address);
+      const placemark = createPlacemark(yMaps, geoObjectData, setDragStart, setNewCoordinates);
+      setYMapObject(prevYMapObject => {
+        prevYMapObject.geoObjects.add(placemark);
+        return prevYMapObject;
+      });
+      setPolylineCoordinates((data) => [...data, geoObjectData]);
+  
+    }, [yMaps, yMapObject, address, setYMapObject]);
 
   //refresh a polyline and a state of addressList
   const updatePolyline = useCallback(() => {
@@ -115,8 +131,32 @@ function Map({ address, getAddressesList, addressesListChanged, addressDeleted, 
   //call updateYMapObject wich put a new markPoint on the Map
   useEffect(() => {
     if(!yMapIsAvailable) return;
-    updateYMapObject();
-  }, [yMaps,yMapIsAvailable,address, updateYMapObject]);
+    updateYMapObjectNew();
+  }, [yMaps,yMapIsAvailable,address, updateYMapObjectNew]);
+
+  ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
+  const updateAutocomleteList = useCallback(()=>{
+    if(!autoAddress) return;
+    getGeocoderDataList(yMaps,autoAddress)
+      .then((list)=>{
+        //console.log(list);
+        handleSetAutoCompleteList(list);
+      });
+  },[yMaps,handleSetAutoCompleteList, autoAddress]);
+
+  useEffect(()=>{
+    //updateAutocomleteList();
+
+    if(!autoAddress) return;
+    getGeocoderDataList(yMaps,autoAddress)
+      .then((list)=>{
+        //console.log(list);
+        handleSetAutoCompleteList(list);
+      });
+  },[yMaps,handleSetAutoCompleteList, autoAddress,updateAutocomleteList]);
+
+  ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
   //call updatePolyline wich refresh a polyline and a state of addressList
   useEffect(() => {
