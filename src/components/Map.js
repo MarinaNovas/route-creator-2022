@@ -287,6 +287,7 @@ function Map({ pointName, getAddressesList, addressesListChanged, addressDeleted
 
     setYMapObject(yMapObject => {
       yMapObject.geoObjects.removeAll();
+      yMapObject.setZoom(9);
       return yMapObject;
     });
 
